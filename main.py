@@ -48,22 +48,6 @@ def mostrar_recuperaciones(df, player_name, equipo_seleccionado):
                   (df['player.name'] == player_name) & 
                   (df['team.name'] == equipo_seleccionado)]
 
-def mostrar_perdidas(df, player_name, equipo_seleccionado):
-    # Se consideran las pérdidas de balón como pases con resultado distinto a 'Complete'
-    if player_name == "TOTAL":
-        return df[(df['type.name'] == 'Pass') &
-                  (df['pass.end_location'].notnull()) &
-                  (df['pass.outcome.name'].notnull()) &
-                  (df['pass.outcome.name'] != 'Complete') &
-                  (df['team.name'] == equipo_seleccionado)]
-    else:
-        return df[(df['type.name'] == 'Pass') &
-                  (df['player.name'] == player_name) &
-                  (df['pass.end_location'].notnull()) &
-                  (df['pass.outcome.name'].notnull()) &
-                  (df['pass.outcome.name'] != 'Complete') &
-                  (df['team.name'] == equipo_seleccionado)]
-
 def mostrar_faltas_cometidas(df, player_name, equipo_seleccionado):
     if player_name == "TOTAL":
         return df[(df['type.name'] == 'Foul Committed') & 
@@ -99,11 +83,7 @@ def dibujar_eventos(ax, eventos, tipo):
             ax.scatter(x_end, y_end, color=color, s=100, marker=arrowhead_marker, zorder=5)
         elif tipo == "Ball Recovery":
             x_end, y_end = row['location']
-            ax.scatter(x_end, y_end, color='green', s=150, marker='X', zorder=5)
-        elif tipo == "Ball Loss":
-            x_end, y_end = row['pass.end_location'][:2]
-            ax.annotate('', xy=(x_end, y_end), xytext=(x_start, y_start),
-                        arrowprops=dict(arrowstyle='->', color='black', lw=2, linestyle='dashed'))
+            ax.scatter(x_end, y_end, color='black', s=150, marker='X', zorder=5)
 
 # === TODOS LOS JUGADORES ===
 def obtener_jugadores(lineup):
@@ -640,7 +620,7 @@ tabla_faltas_recibidas = mostrar_tabla_falta_recibidas(df_data, jugador_seleccio
 st.dataframe(tabla_faltas_recibidas)
 
 
-evento_tipo = st.selectbox("Selecciona el tipo de evento a visualizar", ["Pases", "Tiros", "Recuperaciones", "Perdidas"])
+evento_tipo = st.selectbox("Selecciona el tipo de evento a visualizar", ["Pass", "Shot", "Ball Recovery"])
 
 # Visualización de eventos
 fig, ax = plt.subplots(figsize=(12, 8))
@@ -653,14 +633,15 @@ else:
     pos_coords = position_map_away.get(posicion)
 
 # Filtrar los eventos según el tipo
-if evento_tipo == "Pases":
+if evento_tipo == "Pass":
     eventos = mostrar_pases(df_data, jugador_seleccionado, equipo_seleccionado)
-elif evento_tipo == "Tiros":
+elif evento_tipo == "Shot":
     eventos = mostrar_tiros(df_data, jugador_seleccionado, equipo_seleccionado)
-elif evento_tipo == "Recuperaciones":
+elif evento_tipo == "Ball Recovery":
     eventos = mostrar_recuperaciones(df_data, jugador_seleccionado, equipo_seleccionado)
-elif evento_tipo == "Perdidas":
-    eventos = mostrar_perdidas(df_data, jugador_seleccionado, equipo_seleccionado)
+
+# Dibujar eventos
+dibujar_eventos(ax, eventos, evento_tipo)
 
 # Dibujar eventos
 dibujar_eventos(ax, eventos, evento_tipo)
