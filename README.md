@@ -1,6 +1,6 @@
 # Football Match Analysis
 
-Este proyecto es una aplicación interactiva desarrollada con **Streamlit** para analizar partidos de fútbol utilizando datos abiertos de **StatsBomb**. La aplicación permite visualizar eventos como pases, tiros, recuperaciones, pérdidas de balón, faltas cometidas y recibidas, así como alineaciones y suplentes de los equipos.
+Este proyecto es una aplicación interactiva desarrollada con **Streamlit** para analizar partidos de fútbol utilizando datos abiertos de **StatsBomb**. La aplicación permite visualizar eventos como pases, tiros, recuperaciones, faltas cometidas y recibidas, así como alineaciones y suplentes de los equipos.
 
 ## Funcionalidades
 
@@ -14,7 +14,6 @@ Este proyecto es una aplicación interactiva desarrollada con **Streamlit** para
    - **Pases**: Visualización de pases acertados y errados, diferenciados por primera y segunda parte.
    - **Tiros**: Análisis de tiros a puerta, fuera y goles.
    - **Recuperaciones**: Recuperaciones de balón en campo propio y contrario.
-   - **Pérdidas**: Pérdidas de balón clasificadas como pases no completados.
    - **Faltas**: Faltas cometidas y recibidas.
 
 4. **Alineaciones y suplentes**:
@@ -48,7 +47,6 @@ streamlit run main.py
 - mostrar_pases(df, player_name, equipo_seleccionado): Filtra los pases realizados por un jugador o equipo.
 - mostrar_tiros(df, player_name, equipo_seleccionado): Filtra los tiros realizados.
 - mostrar_recuperaciones(df, player_name, equipo_seleccionado): Filtra las recuperaciones de balón.
-- mostrar_perdidas(df, player_name, equipo_seleccionado): Filtra las pérdidas de balón.
 - mostrar_faltas_cometidas(df, player_name, equipo_seleccionado): Filtra las faltas cometidas.
 - mostrar_faltas_recibidas(df, player_name, equipo_seleccionado): Filtra las faltas recibidas.
 
